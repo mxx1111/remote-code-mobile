@@ -97,6 +97,12 @@ Join the phone to the same tailnet and open the `https://<machine>.<tailnet>.ts.
 
 If either port is already used by another Serve rule, inspect `tailscale serve status` before changing anything. When remote access fails, check the Tailscale device state, MagicDNS, and both service ports separately.
 
+### Install on an iPhone Home Screen
+
+After the HTTPS address works, open it in Safari, tap Share, choose **Add to Home Screen**, enable **Open as Web App**, and tap Add. The installed web app uses its own icon and standalone window without Safari browser chrome.
+
+A one-time install hint is shown on iPhone when the page is opened in a browser. The service worker caches only the H5 shell and static assets; `/api`, Claude, Shell, SSE, and terminal traffic always connect directly to the Mac.
+
 ## Optional LAN access
 
 Only on a fully trusted LAN, you may explicitly change `.env.local` to:

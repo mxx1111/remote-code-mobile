@@ -99,6 +99,12 @@ tailscale serve status
 
 如果端口已经被其他 Tailscale Serve 规则占用，请先查看 `tailscale serve status`，不要直接覆盖现有配置。远程不可用时，分别检查 Tailscale 设备状态、MagicDNS 和两个服务端口。
 
+### 安装到 iPhone 主屏幕
+
+确认 HTTPS 地址可以访问后，在 Safari 中打开，点击分享，选择“添加到主屏幕”，开启“作为网页 App 打开”并添加。安装后的网页 App 会使用独立图标和窗口，不再显示 Safari 浏览器栏。
+
+iPhone 首次通过浏览器打开时，页面会显示一次安装提示。Service Worker 只缓存 H5 外壳和静态资源；`/api`、Claude、Shell、SSE 与终端流量始终直连 Mac。
+
 ## 可选的局域网模式
 
 只有在完全可信的局域网中，才可以显式修改 `.env.local`：

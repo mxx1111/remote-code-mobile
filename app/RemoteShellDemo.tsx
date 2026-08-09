@@ -89,6 +89,7 @@ const FALLBACK_PROJECT: Project = {
 const PINNED_PROJECTS_KEY = "remote-shell-pinned-projects";
 const SELECTED_PROJECT_KEY = "remote-shell-selected-project";
 const CLAUDE_PERMISSION_MODE_KEY = "remote-shell-claude-permission-mode";
+const IOS_INSTALL_HINT_KEY = "remote-shell-ios-install-hint-dismissed";
 const CLAUDE_PERMISSION_MODES: Array<{
   label: string;
   value: ClaudePermissionMode;
@@ -247,6 +248,8 @@ export function RemoteShellDemo() {
   const [isLoadingProjects, setIsLoadingProjects] = useState(false);
   const [showProjectPicker, setShowProjectPicker] = useState(false);
   const [showScrollToBottom, setShowScrollToBottom] = useState(false);
+  const [showIosInstallHint, setShowIosInstallHint] = useState(false);
+  const [installHintNeedsHttps, setInstallHintNeedsHttps] = useState(false);
   const feedRef = useRef<HTMLDivElement | null>(null);
   const draftRef = useRef<HTMLTextAreaElement | null>(null);
   const eventSourceRef = useRef<EventSource | null>(null);
@@ -349,6 +352,18 @@ export function RemoteShellDemo() {
     void loadProjects();
     return () => eventSourceRef.current?.close();
   }, [loadProjects]);
+
+  useEffect(() => {
+    const navigatorWithStandalone = window.navigator as Navigator & { standalone?: boolean };
+    const isIos = /iPad|iPhone|iPod/.test(window.navigator.userAgent)
+      || (window.navigator.platform === "MacIntel" && window.navigator.maxTouchPoints > 1);
+    const isStandalone = window.matchMedia("(display-mode: standalone)").matches
+      || navigatorWithStandalone.standalone === true;
+    const hintDismissed = window.localStorage.getItem(IOS_INSTALL_HINT_KEY) === "1";
+
+    setInstallHintNeedsHttps(!window.isSecureContext);
+    setShowIosInstallHint(isIos && !isStandalone && !hintDismissed);
+  }, []);
 
   useEffect(() => {
     const feed = feedRef.current;
@@ -947,6 +962,30 @@ export function RemoteShellDemo() {
           RS
         </button>
       </header>
+
+      {showIosInstallHint && (
+        <aside className="ios-install-card" aria-label="安装到 iPhone 主屏幕">
+          <span className="ios-install-icon" aria-hidden="true" />
+          <div>
+            <strong>{installHintNeedsHttps ? "先切换到 HTTPS 地址" : "添加到 iPhone 主屏幕"}</strong>
+            <p>
+              {installHintNeedsHttps
+                ? "请先用 Tailscale HTTPS 地址打开，再从 Safari 分享菜单添加。"
+                : "在 Safari 点分享，选择“添加到主屏幕”，并开启“作为网页 App 打开”。"}
+            </p>
+          </div>
+          <button
+            aria-label="关闭安装提示"
+            onClick={() => {
+              window.localStorage.setItem(IOS_INSTALL_HINT_KEY, "1");
+              setShowIosInstallHint(false);
+            }}
+            type="button"
+          >
+            ×
+          </button>
+        </aside>
+      )}
 
       <div className="machine-overview">
         <div className="machine-topline">

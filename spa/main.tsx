@@ -8,3 +8,9 @@ createRoot(document.getElementById("root")!).render(
     <RemoteShellDemo />
   </React.StrictMode>,
 );
+
+if ("serviceWorker" in navigator && import.meta.env.PROD && window.isSecureContext) {
+  window.addEventListener("load", () => {
+    void navigator.serviceWorker.register("/service-worker.js", { scope: "/" }).catch(() => undefined);
+  });
+}

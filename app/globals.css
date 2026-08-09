@@ -135,6 +135,56 @@ textarea:focus-visible {
   cursor: pointer;
 }
 
+.ios-install-card {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 30px;
+  align-items: center;
+  gap: 12px;
+  margin: -8px 0 16px;
+  padding: 11px 10px 11px 11px;
+  border: 1px solid rgba(57, 113, 95, 0.14);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 34px rgba(43, 39, 31, 0.08);
+}
+
+.ios-install-icon {
+  display: block;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: url("/icons/apple-touch-icon.png") center / cover no-repeat;
+  box-shadow: 0 5px 14px rgba(43, 39, 31, 0.13);
+}
+
+.ios-install-card strong {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ios-install-card p {
+  margin: 0;
+  color: var(--muted-strong);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.ios-install-card > button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--panel);
+  color: var(--muted-strong);
+  font-size: 17px;
+  cursor: pointer;
+}
+
 .machine-overview {
   position: relative;
   overflow: hidden;
