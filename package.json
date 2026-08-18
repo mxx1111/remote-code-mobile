@@ -12,8 +12,9 @@
     "build": "vite build --config vite.spa.config.ts --outDir dist-spa",
     "start": "node --env-file-if-exists=.env.local server/local-terminal-server.mjs",
     "lint": "eslint . --ignore-pattern dist-spa",
+    "test": "node --test server/*.test.mjs",
     "typecheck": "tsc --noEmit",
-    "check": "npm run lint && npm run typecheck && npm run build"
+    "check": "npm run lint && npm run typecheck && npm test && npm run build"
   },
   "dependencies": {
     "react": "19.2.6",
